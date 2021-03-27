@@ -11,20 +11,15 @@ __author__ = "Nishant Baheti"
 def home(request):
     return render(request,'home.html')
 
-def remove_punc(request):
-    form_text = request.GET.get("text","default")
-    print(form_text)
-    return HttpResponse("Remove punctuation")
-
 def analyzer(request):
 
-    form_text = request.GET.get("text","default")
-    form_remove_punc = request.GET.get("removepunc","off")
-    form_cap_first = request.GET.get("capitalizefirst", "off")
-    form_new_line_rm = request.GET.get("newlineremove", "off")
-    form_space_rm = request.GET.get("spaceremove", "off")
-    form_char_count = request.GET.get("charcount", "off")
-    print(form_text,form_remove_punc)
+    form_text = request.POST.get("text","default")
+    form_remove_punc = request.POST.get("removepunc", "off")
+    form_cap_first = request.POST.get("capitalizefirst", "off")
+    form_new_line_rm = request.POST.get("newlineremove", "off")
+    form_space_rm = request.POST.get("spaceremove", "off")
+    form_char_count = request.POST.get("charcount", "off")
+    # print(form_text,form_remove_punc)
 
     purpose = ""
 
@@ -45,13 +40,7 @@ def analyzer(request):
         purpose += "| Capitalize First "
 
     if form_new_line_rm == "on":
-
-        new_string = ""
-
-        for c in form_text:
-            if c != "\n":
-                new_string += c
-        form_text = new_string
+        form_text = form_text.replace("\n","").replace("\r","")
         purpose += "| Remove New Line "
 
     if form_space_rm == "on":
